@@ -530,8 +530,9 @@ progress {
 }
 
 .lead {
-  font-size: 1.25rem;
+  font-size: 1.15rem;
   font-weight: 400;
+  line-height: 1.25;
 }
 
 .display-1 {
@@ -684,7 +685,7 @@ progress {
 .container-lg,
 .container-xl,
 .container-xxl {
-    display: flex;
+  display: flex;
     flex-wrap: inherit;
     align-items: center;
     justify-content: space-between;
@@ -5020,9 +5021,14 @@ fieldset:disabled .btn {
 .navbar>.container-xl,
 .navbar>.container-xxl {
   display: flex;
-  flex-wrap: inherit;
-  align-items: center;
-  justify-content: space-between;
+    flex-wrap: inherit;
+    align-items: center;
+    justify-content: space-between;
+    background: rgba(0, 0, 0, 0.1);
+    backdrop-filter: blur(17.5px);
+    border-radius: 6px;
+    padding-bottom: 5px;
+    padding-top: 5px;
 }
 
 .navbar-brand {
