@@ -1,0 +1,64 @@
+site_name: Row Development Documentation
+site_url: https://docs.rowdevelopment.net
+extra_css:
+  - css/extra.css
+theme:
+  language: tr 
+  logo: assets/rowlogo.png
+  favicon: assets/logo.png
+  features:
+    - navigation.instant
+    - navigation.instant.progress
+    - navigation.footer
+  name: material
+  palette:
+    # Palette toggle for light mode
+    - scheme: slate
+      toggle:
+        icon: material/brightness-7 
+
+
+        name: Switch to ligth mode
+
+    # Palette toggle for dark mode
+    - scheme: default
+      toggle:
+        icon: material/brightness-4
+        name: Switch to dark mode
+nav:
+  - Home: index.md
+  - Script Guide:
+    - İnventory docs: script/inventory.md
+  - About:
+    - Release Notes: release-notes.md
+
+markdown_extensions:
+  - admonition
+  - pymdownx.details
+  - pymdownx.critic
+  - pymdownx.caret
+  - pymdownx.keys
+  - pymdownx.mark
+  - pymdownx.tilde
+  - pymdownx.highlight:
+      anchor_linenums: true
+      line_spans: __span
+      pygments_lang_class: true
+  - pymdownx.inlinehilite
+  - pymdownx.snippets
+  - pymdownx.superfences:
+      custom_fences:
+        - name: mermaid
+          class: mermaid
+          format: !!python/name:pymdownx.superfences.fence_code_format
+  - pymdownx.tabbed:
+      alternate_style: true
+extra:
+    generator: false
+    social:
+     - icon: fontawesome/brands/discord 
+       link: https://discord.gg/rowdev
+
+copyright: Copyright &copy; 2025 Row Developmet
+
+        
