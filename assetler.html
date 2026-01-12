@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<link rel="apple-touch-icon" sizes="76x76" href="assets/row-images/rowlogo.png">
+<link rel="icon" type="image/png" href="assets/row-images/rowlogo.png">
+<title>Asset Galerisi</title>
+
+<meta name="description" content="Row Development Asset Galerisi" />
+
+<style>
+body {
+    background:#0e0e0e;
+    color:#fff;
+    font-family:Arial, sans-serif;
+    padding:20px;
+}
+.gallery {
+    display:grid;
+    grid-template-columns:repeat(auto-fill,minmax(220px,1fr));
+    gap:15px;
+}
+.card {
+    background:#181818;
+    padding:10px;
+    border-radius:10px;
+    text-align:center;
+
+    height: 260px;               /* SABİT KART BOYU */
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.card a {
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    height: 180px;               /* RESİM ALANI */
+    overflow: hidden;
+}
+
+.card img {
+    max-width:100%;
+    max-height:100%;
+    object-fit: contain;         /* cover yaparsan kırpar */
+    border-radius:8px;
+}
+
+.name {
+    font-size:12px;
+    opacity:.7;
+    margin-top:6px;
+    word-break:break-all;
+}
+</style>
+</head>
+<body>
+
+<h1>Asset Galerisi</h1>
+<div id="stats" style="margin-bottom:15px; opacity:.8;">
+    Toplam: <b id="total">0</b> |
+    Resim: <b id="images">0</b> |
+    GIF: <b id="gifs">0</b> |
+    Video: <b id="videos">0</b>
+</div>
+
+<div class="gallery" id="gallery"></div>
+
+<script>
+const repo = "rowdevelopments/rowdevelopments.github.io";
+const folders = [
+    "assets/img",
+    "assets/row-images"
+];
+
+const gallery = document.getElementById("gallery");
+
+// sayaçlar
+let total = 0;
+let imageCount = 0;
+let gifCount = 0;
+let videoCount = 0;
+
+// sayaç elementleri
+const totalEl  = document.getElementById("total");
+const imageEl  = document.getElementById("images");
+const gifEl    = document.getElementById("gifs");
+const videoEl  = document.getElementById("videos");
+
+folders.forEach(folder => {
+    fetch(`https://api.github.com/repos/${repo}/contents/${folder}`)
+    .then(res => res.json())
+    .then(files => {
+        files.forEach(file => {
+
+            const ext = file.name.split('.').pop().toLowerCase();
+
+            const isImage = ["png","jpg","jpeg","webp"].includes(ext);
+            const isGif   = ext === "gif";
+            const isVideo = ["mp4","webm","ogg"].includes(ext);
+
+            if (!isImage && !isGif && !isVideo) return;
+
+            // SAY
+            total++;
+            if (isGif) gifCount++;
+            else if (isVideo) videoCount++;
+            else if (isImage) imageCount++;
+
+            // sayaçları güncelle
+            totalEl.textContent = total;
+            imageEl.textContent = imageCount;
+            gifEl.textContent   = gifCount;
+            videoEl.textContent = videoCount;
+
+            // görsel/video
+            const sitePath = `${folder}/${file.name}`;
+            const card = document.createElement("div");
+            card.className = "card";
+
+            let mediaHtml = "";
+
+            if (isVideo) {
+                mediaHtml = `
+                    <a href="${sitePath}" target="_blank">
+                        <video src="${sitePath}" muted loop></video>
+                    </a>
+                `;
+            } else {
+                mediaHtml = `
+                    <a href="${sitePath}" target="_blank">
+                        <img src="${sitePath}" loading="lazy">
+                    </a>
+                `;
+            }
+
+            card.innerHTML = `
+                ${mediaHtml}
+                <div class="name">${file.name}</div>
+            `;
+
+            gallery.appendChild(card);
+        });
+    });
+});
+</script>
+
+
+</body>
+</html>
